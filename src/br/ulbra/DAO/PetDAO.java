@@ -7,12 +7,19 @@ package br.ulbra.DAO;
 
 import br.ulbra.entity.Pet;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 
 public class PetDAO {
 
+    Pet p = new Pet();
     Connection con;
 
     public PetDAO() throws SQLException {
@@ -26,7 +33,6 @@ public class PetDAO {
         boolean check = false;
 
         try {
-            Pet p = new Pet();
 
             stmt = con.prepareStatement("INSERT INTO pet (nome, raca, anoNasc, sexo, corPelo) VALUES (?,?,?,?,?)");
 
@@ -46,4 +52,61 @@ public class PetDAO {
         }
 
     }
+    
+    public void signUp(Pet p) {
+
+        java.sql.PreparedStatement stmt = null;
+       
+
+        boolean check = false;
+
+        try {
+            
+            stmt = con.prepareStatement("INSERT INTO pet (nomePet, raca, anoNasc, sexo, corPelo) VALUES (?,?,?,?,?)");
+            
+            stmt.setString(1, p.getNomePet());
+            stmt.setString(2, p.getRaca());
+            stmt.setInt(3, p.getAnoNasc()); 
+            stmt.setString(4, p.getSexo());
+            stmt.setString(5, p.getCorPelo());
+            
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Pet salvo com sucesso!");
+       
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt);
+        }
+
+    }
+    
+    public ArrayList<Pet> read() {
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        List<Pet> pet = new ArrayList<>();
+
+        try {
+            stmt = con.prepareStatement("SELECT * FROM pet");
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Pet pet = new Pet();
+                pet.setNomePet(rs.getString("nomepet"));
+                pet.setRaca(rs.getString("raçapet"));
+                pet.setAnoNasc(rs.getInt());
+                pet.setSexo(rs.getString("senhausu"));
+                pet.setCorPelo(rs.getString("foneusu"));
+                pet.add(pet);
+            }
+        } catch (SQLException ex) {
+           Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            ConnectionFactory.closeConnection(con, stmt, rs);
+        }
+        return (ArrayList<Pet>) pet;
+    }
+
 }

@@ -201,13 +201,21 @@ public class FrmCadUsuario extends javax.swing.JFrame {
             String senha1 = (txtSenha.getText());
             String senha = txtSenhaConfirma.getText();
             usu.setFoneUsu(txtFone.getText());
-            usu.setCpfUsu(txtCPF.getText());
+            String cpf = txtCPF.getText();
             usu.setEnderecoUsu(txtEndereco.getText());
+ 
+            if (usu.validarCpf(cpf)) {
+                usu.setCpfUsu(cpf);
 
-            if (senha1.equals(senha) && usu.validarSenhaForte(txtSenha.getText())) {
-                usu.setSenhaUsu(txtSenha.getText());
-                dao.signUp(usu);
+                if (senha1.equals(senha) && usu.validarSenhaForte(txtSenha.getText())) {
+                    usu.setSenhaUsu(txtSenha.getText());
+                    dao.signUp(usu);
+                } else { 
+                    JOptionPane.showMessageDialog(null, "Senha inválida");
+                }
             } else {
+                JOptionPane.showMessageDialog(null, "CPF inválido");
+            
             }
 
             this.dispose();

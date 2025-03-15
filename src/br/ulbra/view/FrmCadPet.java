@@ -49,6 +49,7 @@ public class FrmCadPet extends javax.swing.JFrame {
         btnLimpar = new javax.swing.JButton();
         btnRadMacho = new javax.swing.JRadioButton();
         btnRadFemea = new javax.swing.JRadioButton();
+        btnCalcularIdade = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,6 +96,13 @@ public class FrmCadPet extends javax.swing.JFrame {
         buttonGroup1.add(btnRadFemea);
         btnRadFemea.setText("Femea");
 
+        btnCalcularIdade.setText("Calcular idade");
+        btnCalcularIdade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcularIdadeActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -120,7 +128,10 @@ public class FrmCadPet extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(txtNomePet, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                         .addComponent(txtRaca)
-                        .addComponent(txtAnoNasc)))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(txtAnoNasc)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnCalcularIdade))))
                 .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -139,7 +150,9 @@ public class FrmCadPet extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addGap(4, 4, 4)
-                .addComponent(txtAnoNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAnoNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCalcularIdade))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -185,9 +198,13 @@ public class FrmCadPet extends javax.swing.JFrame {
 
             if(btnRadMacho.isSelected()){
                 
-                p.setSexo("Macho");
+                p.setSexo("M");
             }else{
-                p.setSexo("Fêmea");
+                p.setSexo("F");
+            }
+            
+            if (p.validarNomePet(txtNomePet.getText())){
+                dao.signUp(p);
             }
             
             this.dispose();
@@ -207,6 +224,11 @@ public class FrmCadPet extends javax.swing.JFrame {
         txtRaca.setText(null);
         btnRadMacho.isSelected();
     }//GEN-LAST:event_btnLimparActionPerformed
+
+    private void btnCalcularIdadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcularIdadeActionPerformed
+     Pet p = new Pet();
+        p.calcularIdade(Integer.parseInt(txtAnoNasc.getText()));
+    }//GEN-LAST:event_btnCalcularIdadeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -245,6 +267,7 @@ public class FrmCadPet extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnCalcularIdade;
     private javax.swing.JButton btnLimpar;
     private javax.swing.JRadioButton btnRadFemea;
     private javax.swing.JRadioButton btnRadMacho;

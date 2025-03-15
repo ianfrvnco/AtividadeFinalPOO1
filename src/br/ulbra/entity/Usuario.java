@@ -1,5 +1,6 @@
 package br.ulbra.entity;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 public class Usuario {
@@ -108,8 +109,66 @@ public class Usuario {
         return senhaUsu.matches(regex);
 
     }
-    
-   /* public boolean validarCpf(String cpfUsu){
-        
-    }*/
+
+    public boolean validarCpf(String cpfUsu) {
+
+
+            if (cpfUsu.length() == 11) {
+                char[] arrayValores = cpfUsu.toCharArray();
+                int[] cpfInteiros = new int[arrayValores.length];
+                int somaCpfInt = 0;
+
+                for (int i = 0; i < arrayValores.length; i++) {
+                    cpfInteiros[i] = Integer
+                            .parseInt(String.valueOf(arrayValores[i]));
+                }
+
+                cpfInteiros[0] *= 10;
+                cpfInteiros[1] *= 9;
+                cpfInteiros[2] *= 8;
+                cpfInteiros[3] *= 7;
+                cpfInteiros[4] *= 6;
+                cpfInteiros[5] *= 5;
+                cpfInteiros[6] *= 4;
+                cpfInteiros[7] *= 3;
+                cpfInteiros[8] *= 2;
+
+                for (int s = 0; s < 8; s++) {
+                    somaCpfInt += cpfInteiros[s];
+                }
+                int restoCpf = somaCpfInt % 11;
+
+                
+                if (11 - restoCpf == cpfInteiros[9]) {
+                    cpfInteiros[0] *= 11;
+                    cpfInteiros[1] *= 10;
+                    cpfInteiros[2] *= 9;
+                    cpfInteiros[3] *= 8;
+                    cpfInteiros[4] *= 7;
+                    cpfInteiros[5] *= 6;
+                    cpfInteiros[6] *= 5;
+                    cpfInteiros[7] *= 4;
+                    cpfInteiros[8] *= 3;
+                    cpfInteiros[9] *= 2;
+
+                    for (int s = 0; s < 9; s++) {
+                        somaCpfInt += cpfInteiros[s];
+                    }
+                    restoCpf = somaCpfInt % 11;
+                    
+                    if (11 - restoCpf >= 9 && cpfInteiros[10] == 0) {
+                        return true;
+                    } else if (11 - restoCpf == cpfInteiros[10]) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+
+    }
 }

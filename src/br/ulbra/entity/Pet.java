@@ -1,6 +1,9 @@
 
 package br.ulbra.entity;
 
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+
 
 public class Pet {
     
@@ -67,5 +70,24 @@ public class Pet {
         this.corPelo = corPelo;
     }
     
+    public void calcularIdade(int anoNasc){
+        Calendar cal = Calendar.getInstance();
+        int anoAtual= cal.get(Calendar.YEAR);
+        JOptionPane.showMessageDialog(null, "O pet tem: "+(anoAtual-anoNasc));
+    }
     
+    public boolean validarNomePet (String nomePet){
+        String regex = "^(?=.*\\d)(?=.*[@$!%*?&])$";
+        
+        if (nomePet.length()<3){
+            JOptionPane.showMessageDialog(null, "Nome inválido.");
+            return false;
+        } else {
+            if (nomePet.matches(regex)){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 }
