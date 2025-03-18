@@ -5,17 +5,44 @@
  */
 package br.ulbra.view;
 
+import br.ulbra.DAO.PetDAO;
+import br.ulbra.entity.Pet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author aluno
  */
 public class FrmListaPet extends javax.swing.JFrame {
 
-    /**
-     * Creates new form FrmListaPet
-     */
-    public FrmListaPet() {
+    Pet p = new Pet();
+
+    public void readJTable() throws SQLException {
+        DefaultTableModel modelo = (DefaultTableModel) tabelaPet.getModel();
+        modelo.setNumRows(0);
+        PetDAO pdao = new PetDAO();
+
+        for (Pet p: pdao.read()) {
+            modelo.addRow(new Object[]{
+                
+                p.getId(),
+                p.getNomePet(),
+                p.getRaca(),
+                p.getAnoNasc(),
+                p.getCorPelo(),
+                p.getSexo()
+
+            });
+        }
+    }
+
+    public FrmListaPet() throws SQLException {
         initComponents();
+        this.setLocationRelativeTo(null);
+        readJTable();
     }
 
     /**
@@ -53,7 +80,7 @@ public class FrmListaPet extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Raça", "Ano de Nascimento", "Cor do Pelo", "Sexo"
+                "ID", "Nome", "Raça", "Ano de Nascimento", "Cor do Pelo", "Sexo"
             }
         ));
         tabelaPet.getTableHeader().setReorderingAllowed(false);
@@ -99,7 +126,7 @@ public class FrmListaPet extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnFecharActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFecharActionPerformed
-    this.dispose();
+        this.dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnFecharActionPerformed
 
@@ -117,23 +144,35 @@ public class FrmListaPet extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FrmListaPet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmListaPet.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FrmListaPet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmListaPet.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FrmListaPet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmListaPet.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FrmListaPet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmListaPet.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmListaPet().setVisible(true);
+                try {
+                    new FrmListaPet().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmListaPet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

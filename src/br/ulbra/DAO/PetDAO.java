@@ -93,13 +93,14 @@ public class PetDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Pet pet = new Pet();
-                pet.setNomePet(rs.getString("nomepet"));
-                pet.setRaca(rs.getString("raçapet"));
-                pet.setAnoNasc(rs.getInt());
-                pet.setSexo(rs.getString("senhausu"));
-                pet.setCorPelo(rs.getString("foneusu"));
-                pet.add(pet);
+                Pet pets = new Pet();
+                pets.setId(rs.getInt("id"));
+                pets.setNomePet(rs.getString("nomepet"));
+                pets.setRaca(rs.getString("raca"));
+                pets.setAnoNasc(rs.getInt("anoNasc"));
+                pets.setSexo(rs.getString("sexo"));
+                pets.setCorPelo(rs.getString("corPelo"));
+                pet.add(pets);
             }
         } catch (SQLException ex) {
            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);

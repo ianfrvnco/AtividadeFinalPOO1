@@ -90,12 +90,12 @@ public class UsuarioDAO {
 
             while (rs.next()) {
                 Usuario usuario = new Usuario();
-                usuario.setIdUsu(rs.getInt("idusu"));
-                usuario.setNomeUsu(rs.getString("nomeusu"));
-                usuario.setEmailUsu(rs.getString("emailusu"));
-                usuario.setSenhaUsu(rs.getString("senhausu"));
-                usuario.setFoneUsu(rs.getString("foneusu"));
-                usuario.setEnderecoUsu(rs.getString("enderecousu"));
+                usuario.setIdUsu(rs.getInt("id"));
+                usuario.setNomeUsu(rs.getString("nome"));
+                usuario.setEmailUsu(rs.getString("email"));
+                usuario.setSenhaUsu(rs.getString("senha"));
+                usuario.setFoneUsu(rs.getString("fone"));
+                usuario.setEnderecoUsu(rs.getString("endereco"));
                 usuarios.add(usuario);
             }
         } catch (SQLException ex) {

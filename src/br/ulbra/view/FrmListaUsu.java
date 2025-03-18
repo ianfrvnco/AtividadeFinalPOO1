@@ -6,7 +6,10 @@
 package br.ulbra.view;
 
 import br.ulbra.DAO.UsuarioDAO;
+import br.ulbra.entity.Usuario;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,24 +17,23 @@ import javax.swing.table.DefaultTableModel;
  * @author aluno
  */
 public class FrmListaUsu extends javax.swing.JFrame {
-
-    /**
-     * Creates new form FrmListaUsu
-     */
+    
+    Usuario usu = new Usuario();
     
     public void readJTable() throws SQLException {
-        DefaultTableModel modelo = (DefaultTableModel) usuario.getModel();
+        DefaultTableModel modelo = (DefaultTableModel) tbUsuario.getModel();
         modelo.setNumRows(0);
         UsuarioDAO udao = new UsuarioDAO();
 
         for (Usuario p : udao.read()) {
             modelo.addRow(new Object[]{
-                //  p.getIdUsu(),
+                  p.getIdUsu(),
                 p.getNomeUsu(),
                 p.getEmailUsu(),
-                p.getSenhaUsu(),
-                p.getSexoUsu(),
-                p.getFoneUsu()
+                p.getFoneUsu(),
+                p.getCpfUsu(),
+                p.getEnderecoUsu()
+                
             });
         }
     }
@@ -56,7 +58,7 @@ public class FrmListaUsu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbUsuario = new javax.swing.JTable();
         btnFechar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -68,7 +70,7 @@ public class FrmListaUsu extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Lista de Usuários");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbUsuario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -76,7 +78,7 @@ public class FrmListaUsu extends javax.swing.JFrame {
                 "Nome", "Email", "Fone", "CPF", "Endereço"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbUsuario);
 
         btnFechar.setText("Fechar");
         btnFechar.addActionListener(new java.awt.event.ActionListener() {
@@ -159,7 +161,11 @@ public class FrmListaUsu extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FrmListaUsu().setVisible(true);
+                try {
+                    new FrmListaUsu().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmListaUsu.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -169,6 +175,6 @@ public class FrmListaUsu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbUsuario;
     // End of variables declaration//GEN-END:variables
 }
